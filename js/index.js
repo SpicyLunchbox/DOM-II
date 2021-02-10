@@ -2,8 +2,9 @@
 
 //heading bar changes to blue when moused over and returns to white when mouse leaves
 const navContainer = document.querySelector('.main-navigation');
-navContainer.addEventListener('mouseover', function() {
+navContainer.addEventListener('mouseover', function(event) {
     navContainer.style.backgroundColor = '#6EA6FB';
+    event.stopPropagation();
 });
 navContainer.addEventListener('mouseleave', function() {
     navContainer.style.backgroundColor = 'white';
@@ -13,7 +14,8 @@ navContainer.addEventListener('mouseleave', function() {
 const letsGo = document.querySelector('.text-content h2');
 document.addEventListener('keydown', function(event){
     if (event.key === 'l') {
-        letsGo.style.fontSize = '100px';    
+        letsGo.style.fontSize = '100px';
+        event.stopPropagation();
     }
 })
 document.addEventListener('keyup', function(){
@@ -28,9 +30,11 @@ busImage.addEventListener('dblclick', function() {
     busImage.src = "https://i.pinimg.com/originals/73/c4/fc/73c4fc769e9df14d4d80240741dc795d.jpg";
 })
 
-// Not working, come back to later, also why does addEventListener need window as opposed to document?
+// resizes text during scroll in
+const paragraphs = document.querySelectorAll('p');
+
 window.addEventListener('resize', function() {
-    p.style.fontSize = '200px';
+    paragraphs.forEach(object => object.style.fontSize = '200px');
 })
 
 //changes adventure awaits on scroll
@@ -44,25 +48,26 @@ window.addEventListener('scroll', function(){
     letsGo.textContent = "wait don't leave";
 })
 
-//changes background color on load
-busImage.addEventListener('load', function(){
-    body.style.backgroundColor = 'green';
+//changes background color on load (currently not working)
+const body1 = document.querySelector('body');
+window.addEventListener('load', function(){
+    body1.style.backgroundColor = 'green';
+})
+//changes text in pick your destination upon selection
+const destinationSelection = document.querySelector('.content-destination p');
+console.log(destinationSelection);
+destinationSelection.addEventListener('select', function (){
+    destinationSelection.textContent = "Do not touch";
 })
 
+const navigation = document.querySelectorAll('a');
+for (let i = 0; i < navigation.length; i++){
+    navigation[i].addEventListener('click', function(event){
+        event.preventDefault();
+    })
+}
 
-// Task 2: Create listeners for 10 types of events
-//  Using your index.js file, create event listeners of at least 10 different types. You must Use your creativity to make the Fun Bus site more interactive. For example you could change colors, animate objects, remove objects, etc. Here are some event types you could try to use:
-// mouseover
-// keydown
-// wheel
-// load
-// focus
-// resize
-// scroll
-// select
-// dblclick
-// drag / drop
-// Note: Drag and drop is a bit more advanced than the others: it's not actually a single type of event but several types that need to work together.
+
 
 //  Nest two similar events somewhere in the site and prevent the event propagation properly. Remember not all event types bubble.
 //  Stop the navigation items from refreshing the page by using preventDefault()
